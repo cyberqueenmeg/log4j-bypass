@@ -38,12 +38,18 @@ optional arguments:
 ```
 
 # INSTALLATION AND FIRST USE
+To use this, you may want to set up a CanaryToken to save the DNS hit results and have them as a cleaner interface. To do so, go to https://canarytokens.org/generate#, select the Log4Shell token, and put the generated token into the program after the optional ``` --custom-dns-callback-host ``` tag when executing the script. You can also use other services such as dnslog.cn or your own hosted server.
 ```
 # You must have git and python3 installed to use this code
 git clone 
 cd log4j-bypass
 chmod 777 bypass.py
-python3 bypass.py
+python3 bypass.py -h
 ```
 
 Email me at cyberqueenmeg@wearehackerone with any questions and feel free to fork this repo for your own use or contribute! I'll do my best to keep it updated with new bypasses but I might miss one so please contribute if you find a new bypass :D
+
+# CREDITS
+Special thanks to https://github.com/fullhunt/log4j-scan for inspiring the majority of this code! This is a fork of their project modified to include more details and make it easier to test all the bypasses and new versions.
+
+Thank you to all of the defenders who are actively trying to find and patch this vulnerability and who are sharing information and fixes that they have found.
