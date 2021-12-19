@@ -1,6 +1,6 @@
 # Log4j Bypass
 
-This script enables you to easily test for all of the Log4J bypass methods. You can just test for the original bypass by not adding any tags or you can add the --bypass tag to test for the bypasses.
+This script enables you to easily test for all of the Log4J bypass methods. You can just test for the original JNDI exploit by not adding any tags or you can add the ```--bypass``` tag to test for the bypasses.
 
 # HACKERS WITH HALOS
 This script was created for ETHICAL usage only. Ethical uses include testing your own software, testing software in a penetration test, testing software in a bug bounty, testing purposefully vulnerable software either independently or in an educational setting, or testing software with consent by the creator. Be Hackers with Halos and only use this for ethical purposes. I am not liable for any damage you cause with this software and you are encouraged to look at the source code to understand how it works before using it. You are not permitted to use this software for illegal or cyberwarfare purposes.
