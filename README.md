@@ -37,4 +37,13 @@ optional arguments:
                         Custom DNS Callback Host.
 ```
 
+# INSTALLATION AND FIRST USE
+```
+# You must have git and python3 installed to use this code
+git clone 
+cd log4j-bypass
+chmod 777 bypass.py
+python3 bypass.py
+```
+
 Email me at cyberqueenmeg@wearehackerone with any questions and feel free to fork this repo for your own use or contribute! I'll do my best to keep it updated with new bypasses but I might miss one so please contribute if you find a new bypass :D
