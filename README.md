@@ -56,4 +56,6 @@ Email me at cyberqueenmeg@wearehackerone with any questions and feel free to for
 # CREDITS
 Special thanks to https://github.com/fullhunt/log4j-scan for inspiring the majority of this code! This is a fork of their project modified to include more details and make it easier to test all the bypasses and new versions.
 
+Special thanks to https://github.com/Puliczek/CVE-2021-44228-PoC-log4j-bypass-words for providing lots of the bypasses I included in the bypass_payloads array
+
 Thank you to all of the defenders who are actively trying to find and patch this vulnerability and who are sharing information and fixes that they have found.

