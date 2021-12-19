@@ -4,7 +4,7 @@ This script enables you to easily test for all of the Log4J bypass methods. You 
 
 # MANUAL:
 
-usage: bypass.py [-h] [-u URL] [-p PROXY] [-l USEDLIST]
+\\CODE usage: bypass.py [-h] [-u URL] [-p PROXY] [-l USEDLIST]
                  [--request-type REQUEST_TYPE] [--headers-file HEADERS_FILE]
                  [--run-all-tests] [--exclude-user-agent-fuzzing]
                  [--wait-time WAIT_TIME] [--bypass]
@@ -34,6 +34,6 @@ optional arguments:
                         DNS Callback provider (Options: dnslog.cn,
                         interact.sh) - [Default: interact.sh].
   --custom-dns-callback-host CUSTOM_DNS_CALLBACK_HOST
-                        Custom DNS Callback Host.
+                        Custom DNS Callback Host. \\CODE
 
 Email me at cyberqueenmeg@wearehackerone with any questions and feel free to fork this repo for your own use or contribute! I'll do my best to keep it updated with new bypasses but I might miss one so please contribute if you find a new bypass :D
