@@ -45,7 +45,7 @@ To use this, you may want to set up a CanaryToken to save the DNS hit results an
 
 ```
 # You must have git and python3 installed to use this code
-git clone 
+git clone https://github.com/cyberqueen-meg/log4j-bypass.git
 cd log4j-bypass
 chmod 777 bypass.py
 python3 bypass.py -h
