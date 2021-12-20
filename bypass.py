@@ -139,7 +139,7 @@ def get_fuzzing_headers(payload):
     if args.exclude_user_agent_fuzzing:
         fuzzing_headers["User-Agent"] = default_headers["User-Agent"]
 
-    fuzzing_headers["Referer"] = f'https://{fuzzing_headers["Referer"]}'
+    fuzzing_headers["Referrer"] = f'https://{fuzzing_headers["Referrer"]}'
     return fuzzing_headers
 
 
@@ -330,10 +330,10 @@ def main():
                     continue
                 urls.append(i)
 
-    dns_callback_host = ""
+    callback_host = ""
     if args.custom_dns_callback_host:
         cprint(f"[•] Using custom DNS Callback host [{args.custom_dns_callback_host}]. No verification will be done after sending fuzz requests.")
-        dns_callback_host =  args.custom_dns_callback_host
+        callback_host =  args.custom_dns_callback_host
     else:
         cprint(f"[•] Initiating DNS callback server ({args.dns_callback_provider}).")
         if args.dns_callback_provider == "interact.sh":
@@ -342,12 +342,12 @@ def main():
             dns_callback = Dnslog()
         else:
             raise ValueError("Invalid DNS Callback provider")
-        dns_callback_host = dns_callback.domain
+        callback_host = dns_callback.domain
 
     cprint("[%] Checking for Log4j RCE CVE-2021-44228.", "magenta")
     for url in urls:
         cprint(f"[•] URL: {url}", "magenta")
-        scan_url(url, dns_callback_host)
+        scan_url(url, callback_host)
 
     if args.custom_dns_callback_host:
         cprint("[•] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "cyan")
