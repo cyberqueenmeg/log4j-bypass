@@ -7,12 +7,10 @@ This script was created for ETHICAL usage only. Ethical uses include testing you
 
 # MANUAL:
 ```
-usage: bypass.py [-h] [-u URL] [-p PROXY] [-l USEDLIST]
+usage: python3 bypass.py [-h] [-u URL] [-p PROXY] [-l USEDLIST]
                  [--request-type REQUEST_TYPE] [--headers-file HEADERS_FILE]
-                 [--run-all-tests] [--exclude-user-agent-fuzzing]
-                 [--wait-time WAIT_TIME] [--bypass]
-                 [--dns-callback-provider DNS_CALLBACK_PROVIDER]
-                 [--custom-dns-callback-host CUSTOM_DNS_CALLBACK_HOST]
+                 [--wait-time WAIT_TIME]
+                 [--callback-url CUSTOM_DNS_CALLBACK_HOST]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -25,19 +23,12 @@ optional arguments:
                         Request Type: (get, post) - [Default: get].
   --headers-file HEADERS_FILE
                         Headers fuzzing list - [default: headers.txt].
-  --run-all-tests       Run all available tests on each URL.
-  --exclude-user-agent-fuzzing
-                        Exclude User-Agent header from fuzzing - useful to
-                        bypass weak checks on User-Agents.
   --wait-time WAIT_TIME
                         Wait time after all URLs are processed (in seconds) -
                         [Default: 60].
-  --bypass              Extend scans with bypass payloads.
-  --dns-callback-provider DNS_CALLBACK_PROVIDER
-                        DNS Callback provider (Options: dnslog.cn,
-                        interact.sh) - [Default: interact.sh].
-  --custom-dns-callback-host CUSTOM_DNS_CALLBACK_HOST
+  --callback-url CUSTOM_DNS_CALLBACK_HOST
                         Custom DNS Callback Host.
+
 ```
 
 # INSTALLATION AND FIRST USE
