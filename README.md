@@ -31,6 +31,10 @@ optional arguments:
 ```
 
 # INSTALLATION AND FIRST USE
+This program is preinstalled on BlackArch Linux in the blackarch repo and I also plan on adding it to ArchStrike, so you can get it from one of those two repositories on Arch Linux
+
+Otherwise, install it using the instructions below.
+
 To use this, you may want to set up a CanaryToken to save the DNS hit results and have them as a cleaner interface. To do so, go to https://canarytokens.org/generate#, select the Log4Shell token, and put the generated token into the program after the ``` --callback-url ``` tag when executing the script. You can also use other services such as http://dnslog.cn or your own hosted server setup through a utility such as marshalsec (https://github.com/mbechler/marshalsec), OpenLDAP, or similar resources. If you want to host your own server for this, check out the free TryHackMe room created by John Hammond that walks you through setting up the servers to exploit log4j at https://tryhackme.com/room/solar. You need to set up one of these though.
 
 ```
