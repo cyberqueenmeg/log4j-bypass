@@ -52,4 +52,8 @@ Special thanks to https://github.com/fullhunt/log4j-scan for inspiring the major
 
 Special thanks to https://github.com/Puliczek/CVE-2021-44228-PoC-log4j-bypass-words for providing lots of the bypasses I included in the bypass_payloads array
 
+Special thanks to @noptrix for adding multithreading support and helping me get this software in the BlackArch repo!
+
+This program won an award! Thanks to https://github.com/bugbountyhunters for awarding this program 2nd place in their bug bounty tool competition!
+
 Thank you to all of the defenders who are actively trying to find and patch this vulnerability and who are sharing information and fixes that they have found.
