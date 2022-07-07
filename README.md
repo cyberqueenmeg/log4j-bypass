@@ -6,27 +6,24 @@ This script was created for ETHICAL usage only. Ethical uses include testing you
 
 # MANUAL:
 ```
-usage: python3 bypass.py [-h] [-u URL] [-p PROXY] [-l USEDLIST]
-                 [--request-type REQUEST_TYPE] [--headers-file HEADERS_FILE]
-                 [--wait-time WAIT_TIME]
-                 [--callback-url CUSTOM_DNS_CALLBACK_HOST]
+# If you are running this program through the BlackArch repo, you can run it from any directory using 'log4j-bypass' instead of 'bypass.py'
+usage: bypass.py [-h] [-u URL] [-p PROXY] [-l USEDLIST] [-w WAIT_TIME]
+                 [-c CUSTOM_DNS_CALLBACK_HOST] [-t THREADS]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -u URL, --url URL     Check a single URL.
   -p PROXY, --proxy PROXY
                         send requests through proxy
   -l USEDLIST, --list USEDLIST
-                        Check a list of URLs. - default urls.txt
-  --request-type REQUEST_TYPE
-                        Request Type: (get, post) - [Default: get].
-  --headers-file HEADERS_FILE
-                        Headers fuzzing list - [default: headers.txt].
-  --wait-time WAIT_TIME
+                        Check a list of URLs.
+  -w WAIT_TIME, --wait-time WAIT_TIME
                         Wait time after all URLs are processed (in seconds) -
                         [Default: 60].
-  --callback-url CUSTOM_DNS_CALLBACK_HOST
+  -c CUSTOM_DNS_CALLBACK_HOST, --callback-url CUSTOM_DNS_CALLBACK_HOST
                         Custom DNS Callback Host.
+  -t THREADS, --threads THREADS
+                        Num threads for concurrent scanning - [Default: 2].
 
 ```
 
@@ -54,6 +51,8 @@ Special thanks to https://github.com/Puliczek/CVE-2021-44228-PoC-log4j-bypass-wo
 
 Special thanks to @noptrix for adding multithreading support and helping me get this software in the BlackArch repo!
 
+Special thanks to @christian-taillon for providing his log4j threat hunting repo which I used to get the new regex bypasses!
+
 This program won an award! Thanks to https://github.com/bugbountyhunters for awarding this program 2nd place in their bug bounty tool competition!
 
-Thank you to all of the defenders who are actively trying to find and patch this vulnerability and who are sharing information and fixes that they have found.
+Thank you to all of the defenders, penetration testers, bug bounty hunters, and threat hunters who are actively trying to find and patch this vulnerability and who are sharing information and fixes that they have found.

