@@ -33,6 +33,7 @@ except Exception:
 
 cprint('[•] CVE-2021-44228 - Apache Log4j RCE Exception Scanner', "magenta")
 cprint('[•] Scanner provided by CyberQueenMeg', "cyan")
+cprint('[•] If you are running this using the BlackArch library and scanning a list of URLs, put them in /usr/share/log4j-bypass to get the script to scan them', "cyan")
 
 
 if len(sys.argv) <= 1:
