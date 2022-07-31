@@ -190,7 +190,7 @@ def scan_url(url, callback_host):
                                 verify=False,
                                 timeout=timeout,
                                 allow_redirects=True,
-                                proxies=proxies)
+                                proxies=proxies, header=headers)
         except Exception as e:
             cprint(f"EXCEPTION: {e}")
 
