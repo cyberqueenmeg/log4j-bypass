@@ -69,9 +69,15 @@ parser.add_argument("-t", "--threads",
                     default=2,
                     type=int,
                     action='store')
-
+parser.add_argument('--header', dest="header", action="store", help="Custom header", required=True)
 
 args = parser.parse_args()
+
+header = args.header
+
+headers = {
+    'User-Agent': header,
+}
         
 
 post_data_parameters = ["username", "user", "email", "email_address", "password", "search"]
